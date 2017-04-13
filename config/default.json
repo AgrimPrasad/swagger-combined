@@ -1,11 +1,17 @@
 {
-    "list_url": [
-        {
-            "docs": "http://petstore.swagger.io/v2/swagger.json",
-            "base_path": "http://petstore.swagger.io/v2",
-            "route_match": ["/user*", "/pet*", "/store*"]
-        }
-    ],
-    "info": { "title": "Example API", "version": "1.0" },
-    "port": 3000
+	"list_url": [
+		{
+			"docs": "http://petstore.swagger.io/v2/swagger.json",
+			"base_path": "http://petstore.swagger.io/v2",
+			"route_match": ["/user*", "/pet*", "/store*"]
+		},
+		{
+			"docs": "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/json/uber.json",
+			"base_path": "https://angular-admin-seed.sonnguyen.ws",
+			"route_match": ["/api/v1*"]
+		}
+	],
+	"info": { "title": "Example API", "version": "1.0" },
+	"port": 3000,
+	"save_location": "/tmp/test/combined.swagger.json"
 }

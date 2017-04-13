@@ -7,6 +7,8 @@ var app = express();
 var https = require('https');
 var http = require('http');
 var url = require('url');
+var fs = require('fs');
+
 
 // cross origin
 app.use(function(req, res, next) {
@@ -46,8 +48,10 @@ app.get('/docs', function(req, res) {
         ret.host = null;
         ret.basePath = null;
         ret.schemes = schemes;
+        jsonStr = JSON.stringify(ret);
+        saveCombinedJson(jsonStr);
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(ret));
+        res.send(jsonStr);
     });
 });
 var proxy = httpProxy.createProxyServer();
@@ -114,7 +118,8 @@ var doForward = function(req, res, baseUrl, p) {
 }
 
 // addon swagger page
-app.use('/', express.static(__dirname + '/swagger-ui/'));
+// app.use('/', express.static(__dirname + '/swagger-ui/'));
+app.use('/', express.static('https://rebilly.github.io/ReDoc/releases/v1.x.x/redoc.min.js'));
 
 // Start web server at port 3000
 var port = config.get("port");
@@ -138,4 +143,14 @@ var getApis = function(urls){
         the_promises.push(def.promise);
     });
     return q.all(the_promises);
+}
+
+var saveCombinedJson = function(jsonStr) {
+    var loc = config.get("save_location");
+    fs.writeFile(loc, jsonStr, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The combined JSON file was saved to " + loc);
+    });
 }
