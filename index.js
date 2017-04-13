@@ -20,6 +20,10 @@ app.use(function(req, res, next) {
 // list all swagger document urls
 var listUrl = config.get("list_url");
 
+// location to save combined json file
+var save_location = config.get("save_location", "");
+
+
 // general infor of your application
 var info = config.get("info");
 app.get('/docs', function(req, res) {
@@ -48,7 +52,7 @@ app.get('/docs', function(req, res) {
         ret.host = null;
         ret.basePath = null;
         ret.schemes = schemes;
-        jsonStr = JSON.stringify(ret);
+        jsonStr = JSON.stringify(ret, null, 4);
         saveCombinedJson(jsonStr);
         res.setHeader('Content-Type', 'application/json');
         res.send(jsonStr);
@@ -118,15 +122,30 @@ var doForward = function(req, res, baseUrl, p) {
 }
 
 // addon swagger page
-// app.use('/', express.static(__dirname + '/swagger-ui/'));
-app.use('/', express.static('https://rebilly.github.io/ReDoc/releases/v1.x.x/redoc.min.js'));
+app.use('/', express.static(__dirname + '/swagger-ui/'));
+// app.use('/', express.static('https://rebilly.github.io/ReDoc/releases/v1.x.x/redoc.min.js'));
 
 // Start web server at port 3000
 var port = config.get("port");
+var save_only = config.get("save_only", false)
 var server = app.listen(port, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log('Combines swaggers http://%s:%s', host, port);
+    if (save_only) {
+        //ugly hack to combine and save json file with call to created endpoint
+        // http://localhost:3000/docs
+        endpoint = 'http://localhost:' + port + '/docs'
+        http.get(endpoint, function(res) {
+            if (res.statusCode != 200) {
+                console.log('HTTP GET to http://%s:%s failed! Failed to save combined json file.', host, port);
+                process.exit(1);
+            } else {
+                console.log('HTTP GET to http://%s:%s succeeded. Save combined json file successfully to %s', host, port, save_location);
+                process.exit(0);
+            }
+        });
+    }
 });
 
 // get swagger json data from urls
@@ -146,11 +165,13 @@ var getApis = function(urls){
 }
 
 var saveCombinedJson = function(jsonStr) {
-    var loc = config.get("save_location");
-    fs.writeFile(loc, jsonStr, function(err) {
+    if (save_location === "") {
+        return;
+    }
+    fs.writeFile(save_location, jsonStr, function(err) {
         if(err) {
             return console.log(err);
         }
-        console.log("The combined JSON file was saved to " + loc);
+        console.log("The combined JSON file was saved to " + save_location);
     });
 }
