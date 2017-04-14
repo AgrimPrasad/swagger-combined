@@ -1,5 +1,6 @@
+#!/usr/bin/env node
+
 var config = require('config');
-var httpProxy = require('http-proxy');
 var request = require('request');
 var q = require('q');
 var express = require('express');
@@ -53,43 +54,12 @@ app.get('/docs', function(req, res) {
         ret.schemes = schemes;
         ret.consumes = config.get("consumes");
         ret.produces = config.get("produces");
-        // jsonStr = JSON.stringify(ret);
         jsonStr = JSON.stringify(ret, null, 4);
         saveCombinedJson(jsonStr);
         res.setHeader('Content-Type', 'application/json');
         res.send(jsonStr);
     });
 });
-var proxy = httpProxy.createProxyServer();
-
-// listUrl.forEach(function(url){
-//     url.route_match.forEach(function(r){
-//         // GET proxy
-//         app.get(r, function(req, res){
-//             doForward(req, res, url.base_path, proxy);
-//         });
-//         // POST proxy
-//         app.post(r, function(req, res){
-//             doForward(req, res, url.base_path, proxy);
-//         });
-//         // PUT proxy
-//         app.put(r, function(req, res){
-//             doForward(req, res, url.base_path, proxy);
-//         });
-//         // PATCH proxy
-//         app.patch(r, function(req, res){
-//             doForward(req, res, url.base_path, proxy);
-//         });
-//         // DELETE proxy
-//         app.delete(r, function(req, res){
-//             doForward(req, res, url.base_path, proxy);
-//         });
-//         // OPTIONS proxy
-//         app.options(r, function(req, res){
-//             doForward(req, res, url.base_path, proxy);
-//         });
-//     });
-// });
 
 var doForward = function(req, res, baseUrl, p) {
     try {
@@ -155,12 +125,23 @@ var getApis = function(urls){
     var the_promises = [];
     urls.forEach(function(url){
         var def = q.defer();
-        request(url.docs, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                body = JSON.parse(body);
-                def.resolve(body);
-            }
-        });
+        // Check if docs is a url, if yes, then send http request
+        if (url.docs.indexOf('http://') === 0 || url.docs.indexOf('https://') === 0) {
+            request(url.docs, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    body = JSON.parse(body);
+                    def.resolve(body);
+                }
+            });
+        } else { // if docs is a local relative json file, load it from the filesystem
+            docs_location = __dirname + "/" + url.docs;
+            fs.readFile(docs_location, 'utf8', function (error, body) {
+              if (!error) {
+                  body = JSON.parse(body);
+                  def.resolve(body);
+              }
+            });
+        }
         the_promises.push(def.promise);
     });
     return q.all(the_promises);
