@@ -18,14 +18,24 @@
 		},
 		{
 			"docs": "https://gist.githubusercontent.com/AgrimPrasad/a5ecf621ffc73c2859dc1effdd173ffd/raw/ba35ed09da710b9bfb6897a20b09f5702c027340/sportsbook_api.swagger.json",
-			"host": "https://cloudbet.com",
+			// "host": "https://cloudbet.com",
 			// "base_path": "/en/"
 			// "route_match": ["/api/v1*"]
 		}
 	],
 	"host": "cloudbet.com",
 	"base_path": "/en/",
-	"info": { "title": "Example API", "version": "2.0" },
+	"schemes": [
+		"http",
+		"https"
+	],
+	"consumes": [
+		"application/json"
+	],
+	"produces": [
+		"application/json"
+	],
+	"info": { "title": "Sportsbook Manager API", "version": "1.0" },
 	"port": 55329,
 	// "save_location": "swagger-ui/combined.swagger.json",
 	"save_location": "redoc/combined.swagger.json",

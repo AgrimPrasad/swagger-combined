@@ -51,6 +51,8 @@ app.get('/docs', function(req, res) {
         ret.host = config.get("host");;
         ret.basePath = config.get("base_path");
         ret.schemes = schemes;
+        ret.consumes = config.get("consumes");
+        ret.produces = config.get("produces");
         // jsonStr = JSON.stringify(ret);
         jsonStr = JSON.stringify(ret, null, 4);
         saveCombinedJson(jsonStr);
@@ -168,7 +170,7 @@ var saveCombinedJson = function(json_str) {
     if (save_location === "") {
         return;
     }
-    fs.writeFileSync(save_location, json_str, function(err) {
+    fs.writeFile(save_location, json_str, function(err) {
         if(err) {
             return console.log(err);
         }
