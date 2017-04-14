@@ -5,19 +5,21 @@
 		// 	"base_path": "http://petstore.swagger.io/v2",
 		// 	"route_match": ["/user*", "/pet*", "/store*"]
 		// },
-		// {
-		// 	"docs": "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/json/uber.json",
-		// 	"base_path": "https://angular-admin-seed.sonnguyen.ws",
-		// 	"route_match": ["/api/v1*"]
-		// },
 		{
-			"docs": "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/json/uber.json",
-			"base_path": "https://angular-admin-seed.sonnguyen.ws",
-			"route_match": ["/api/v2*"]
+			"docs": "https://gist.githubusercontent.com/AgrimPrasad/a5ecf621ffc73c2859dc1effdd173ffd/raw/ba35ed09da710b9bfb6897a20b09f5702c027340/pricing_engine.swagger.json",
+			"host": "https://cloudbet.com",
+			"base_path": "/en/"
+			// "route_match": [""]
+		},
+		{
+			"docs": "https://gist.githubusercontent.com/AgrimPrasad/a5ecf621ffc73c2859dc1effdd173ffd/raw/ba35ed09da710b9bfb6897a20b09f5702c027340/sportsbook_api.swagger.json",
+			"host": "https://cloudbet.com",
+			"base_path": "/en/"			
+			// "route_match": ["/api/v1*"]
 		}
 	],
 	"info": { "title": "Example API", "version": "2.0" },
-	"port": 3000,
+	"port": 55329,
 	"save_location": "/tmp/test/combined.swagger.json",
 	"save_only": false
 }

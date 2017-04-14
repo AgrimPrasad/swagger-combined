@@ -40,17 +40,17 @@ app.get('/docs', function(req, res) {
             }
             // combines paths
             for (var key in i.paths){
-                a.paths[i.basePath + key] = i.paths[key];
+                a.paths[key] = i.paths[key];
             }
             // combines definitions
             for (var k in i.definitions){
-                a.definitions[i.basePath + k] = i.definitions[k];
+                a.definitions[k] = i.definitions[k];
             }
             return a;
         }, false);
         ret.info = info;
-        ret.host = null;
-        ret.basePath = null;
+        ret.host = listUrl.host;
+        ret.basePath = listUrl.base_path;
         ret.schemes = schemes;
         jsonStr = JSON.stringify(ret, null, 4);
         saveCombinedJson(jsonStr);
@@ -60,34 +60,34 @@ app.get('/docs', function(req, res) {
 });
 var proxy = httpProxy.createProxyServer();
 
-listUrl.forEach(function(url){
-    url.route_match.forEach(function(r){
-        // GET proxy
-        app.get(r, function(req, res){
-            doForward(req, res, url.base_path, proxy);
-        });
-        // POST proxy
-        app.post(r, function(req, res){
-            doForward(req, res, url.base_path, proxy);
-        });
-        // PUT proxy
-        app.put(r, function(req, res){
-            doForward(req, res, url.base_path, proxy);
-        });
-        // PATCH proxy
-        app.patch(r, function(req, res){
-            doForward(req, res, url.base_path, proxy);
-        });
-        // DELETE proxy
-        app.delete(r, function(req, res){
-            doForward(req, res, url.base_path, proxy);
-        });
-        // OPTIONS proxy
-        app.options(r, function(req, res){
-            doForward(req, res, url.base_path, proxy);
-        });
-    });
-});
+// listUrl.forEach(function(url){
+//     url.route_match.forEach(function(r){
+//         // GET proxy
+//         app.get(r, function(req, res){
+//             doForward(req, res, url.base_path, proxy);
+//         });
+//         // POST proxy
+//         app.post(r, function(req, res){
+//             doForward(req, res, url.base_path, proxy);
+//         });
+//         // PUT proxy
+//         app.put(r, function(req, res){
+//             doForward(req, res, url.base_path, proxy);
+//         });
+//         // PATCH proxy
+//         app.patch(r, function(req, res){
+//             doForward(req, res, url.base_path, proxy);
+//         });
+//         // DELETE proxy
+//         app.delete(r, function(req, res){
+//             doForward(req, res, url.base_path, proxy);
+//         });
+//         // OPTIONS proxy
+//         app.options(r, function(req, res){
+//             doForward(req, res, url.base_path, proxy);
+//         });
+//     });
+// });
 
 var doForward = function(req, res, baseUrl, p) {
     try {
