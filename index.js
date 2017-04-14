@@ -124,6 +124,7 @@ var doForward = function(req, res, baseUrl, p) {
 // addon swagger page
 app.use('/', express.static(__dirname + '/swagger-ui/'));
 // app.use('/', express.static('https://rebilly.github.io/ReDoc/releases/v1.x.x/redoc.min.js'));
+// app.use('/', express.static(__dirname + '/redoc/'));
 
 // Start web server at port 3000
 var port = config.get("port");
@@ -164,11 +165,11 @@ var getApis = function(urls){
     return q.all(the_promises);
 }
 
-var saveCombinedJson = function(jsonStr) {
+var saveCombinedJson = function(json_str) {
     if (save_location === "") {
         return;
     }
-    fs.writeFile(save_location, jsonStr, function(err) {
+    fs.writeFile(save_location, json_str, function(err) {
         if(err) {
             return console.log(err);
         }
