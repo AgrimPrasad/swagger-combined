@@ -1,5 +1,5 @@
 FROM alpine:3.2
-MAINTAINER Nguyen Sy Thanh Son <thanhson1085@gmail.com>
+MAINTAINER Agrim Prasad <agrimprasad@gmail.com>
 
 ENV NODE_VERSION=v4.2.2 NPM_VERSION=2.14.2
 
