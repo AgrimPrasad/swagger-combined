@@ -104,7 +104,6 @@ var server = app.listen(port, function () {
     console.log('Combines swaggers http://%s:%s', host, port);
     if (save_only) {
         //ugly hack to combine and save json file with call to created endpoint
-        // http://localhost:3000/docs
         endpoint = 'http://localhost:' + port + '/docs'
         http.get(endpoint, function(res) {
             if (res.statusCode != 200) {
@@ -129,14 +128,19 @@ var getApis = function(urls){
                 if (!error && response.statusCode == 200) {
                     body = JSON.parse(body);
                     def.resolve(body);
+                } else {
+                    console.log(error)
                 }
             });
         } else { // if docs is a local relative json file, load it from the filesystem
             docs_location = __dirname + "/" + url.docs;
+            console.log("JSON file location: ", docs_location);
             fs.readFile(docs_location, 'utf8', function (error, body) {
               if (!error) {
                   body = JSON.parse(body);
                   def.resolve(body);
+              } else {
+                console.log(error)
               }
             });
         }

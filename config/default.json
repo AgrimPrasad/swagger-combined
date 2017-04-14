@@ -1,10 +1,22 @@
 {
 	"list_url": [
 		{
-			"docs": "https://gist.githubusercontent.com/AgrimPrasad/a5ecf621ffc73c2859dc1effdd173ffd/raw/ba35ed09da710b9bfb6897a20b09f5702c027340/pricing_engine.swagger.json"
+			"docs": "../json/internalrpc/currency_worker.swagger.json"
 		},
 		{
-			"docs": "docs_json/sportsbook_api.swagger.json"
+			"docs": "../json/internalrpc/market_manager.swagger.json"
+		},
+		{
+			"docs": "../json/internalrpc/player_manager.swagger.json"
+		},
+		{
+			"docs": "../json/internalrpc/pricing_engine.swagger.json"
+		},
+		{
+			"docs": "../json/internalrpc/sportsbook_api.swagger.json"
+		},
+		{
+			"docs": "../json/internalrpc/sportsentities_manager.swagger.json"
 		}
 	],
 	"host": "cloudbet.com",
@@ -22,6 +34,7 @@
 	"info": { "title": "Sportsbook Manager API", "version": "1.0" },
 	"port": 55329,
 	// "save_location": "swagger-ui/combined.swagger.json",
-	"save_location": "redoc/combined.swagger.json",
-	"save_only": false
+	// "save_location": "redoc/combined.swagger.json",
+	"save_location": "../json/combined.swagger.json",
+	"save_only": true
 }
