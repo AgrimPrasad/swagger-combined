@@ -33,8 +33,6 @@
 	],
 	"info": { "title": "Sportsbook Manager API", "version": "1.0" },
 	"port": 55329,
-	// "save_location": "swagger-ui/combined.swagger.json",
-	// "save_location": "redoc/combined.swagger.json",
 	"save_location": "../json/combined.swagger.json",
 	"save_only": true
 }
